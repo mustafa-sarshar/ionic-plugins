@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Cordova - BLE @if (platformAvailable) {
+      Cordova - BluetoothLE @if (platformAvailable) {
       <ion-icon
         name="logo-ionic"
         color="success"></ion-icon>
@@ -25,7 +25,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Cordova - BLE</ion-title>
+      <ion-title size="large">Cordova - BluetoothLE</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -39,12 +39,7 @@
       class="ion-margin-vertical"
       lines="none">
       @for (device of devicesFound; track $index) {
-      <ion-item class="ion-padding">
-        <my-ble-device-item
-          [device]="device"
-          (onClickConnect)="onClickConnect($event)"
-          style="width: 100%" />
-      </ion-item>
+      <ion-item class="ion-padding">{{device}}</ion-item>
       }
     </ion-list>
     }

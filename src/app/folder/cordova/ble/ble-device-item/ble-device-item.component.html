@@ -1,25 +1,29 @@
-@if (device) {
-  <div class="content">
+<div class="content">
+  @if (device) {
     <span class="content__info">
       <span>
-        <strong>Name:</strong>
-        {{ device.name }}
+        <strong>ID:</strong>
+        {{ device.id ? device.id : "NA" }}
       </span>
       <span>
-        <strong>ID:</strong>
-        {{ device.id }}
+        <strong>Name:</strong>
+        {{ device.name ? device.name : "NA" }}
       </span>
       <span>
         <strong>Connectable:</strong>
-        {{ device.connectable }}
+        {{ device.connectable ? device.connectable : "NA" }}
       </span>
-      <span>
+      <!-- <span>
         <strong>Advertising:</strong>
-        {{ device.advertising | json }}
+        {{ device.advertising ? (device.advertising | json) : "NA" }}
+      </span> -->
+      <span>
+        <strong>RSSI:</strong>
+        {{ device.rssi ? device.rssi : "NA" }}
       </span>
     </span>
     <span class="content__actions">
       <ion-button (click)="onClickConnect()">Connect</ion-button>
     </span>
-  </div>
-}
+  }
+</div>

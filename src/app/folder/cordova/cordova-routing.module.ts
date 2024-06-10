@@ -12,6 +12,11 @@ const routes: Routes = [
     path: "ble",
     loadChildren: () => import("./ble/ble.module").then(m => m.BlePageModule),
   },
+  {
+    path: "bluetooth-l-e",
+    loadChildren: () =>
+      import("./bluetooth-l-e/bluetooth-l-e.module").then(m => m.BluetoothLEPageModule),
+  },
 ];
 
 @NgModule({

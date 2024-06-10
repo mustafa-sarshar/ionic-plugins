@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BleDevice } from "../ble-device.model";
 
@@ -8,13 +8,14 @@ import { BleDevice } from "../ble-device.model";
   styleUrls: ["./ble-device-item.component.scss"],
 })
 export class BleDeviceItemComponent {
-  @Input({ required: true }) device?: BleDevice;
+  @Input({ required: true }) public device?: BleDevice;
+  @Output("onClickConnect") onClickConnectEventEmitter = new EventEmitter<string>();
 
   constructor() {}
 
   public onClickConnect() {
     if (this.device) {
-      console.log(this.device);
+      this.onClickConnectEventEmitter.emit(this.device.id);
     }
   }
 }

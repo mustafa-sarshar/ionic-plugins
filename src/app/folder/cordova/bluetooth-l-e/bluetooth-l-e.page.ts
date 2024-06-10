@@ -1,31 +1,30 @@
 import { Component } from "@angular/core";
 import { Platform, ViewDidEnter, ViewDidLeave } from "@ionic/angular";
-import { BLE } from "@awesome-cordova-plugins/ble/ngx";
+import { BluetoothLE } from "@awesome-cordova-plugins/bluetooth-le/ngx";
 import { Subscription } from "rxjs";
 
-import { BleDevice } from "./ble-device.model";
 import { UtilityService } from "../../../shared/services/utility/utility.service";
 
 @Component({
-  selector: "my-ble",
-  templateUrl: "./ble.page.html",
-  styleUrls: ["./ble.page.scss"],
+  selector: "my-bluetooth-l-e",
+  templateUrl: "./bluetooth-l-e.page.html",
+  styleUrls: ["./bluetooth-l-e.page.scss"],
 })
-export class BlePage implements ViewDidEnter, ViewDidLeave {
+export class BluetoothLEPage implements ViewDidEnter, ViewDidLeave {
   public platformAvailable: boolean = false;
   public pluginEnabled: boolean = false;
   public scanning: boolean = false;
-  public devicesFound: BleDevice[] = [];
+  public devicesFound: any[] = [];
   private _scansubscription?: Subscription;
   private _connectSubscription?: Subscription;
 
   constructor(
     private readonly _platform: Platform,
     private readonly _utilityService: UtilityService,
-    private readonly _ble: BLE,
+    private readonly _bleutoothLE: BluetoothLE,
   ) {}
 
-  public ionViewDidEnter() {
+  public ionViewDidEnter(): void {
     this._platform
       .ready()
       .then(() => {
@@ -36,10 +35,10 @@ export class BlePage implements ViewDidEnter, ViewDidLeave {
         this._utilityService.showToast(err, "bottom");
       });
 
-    this._ble
+    this._bleutoothLE
       .isEnabled()
-      .then(() => {
-        this.pluginEnabled = true;
+      .then(({ isEnabled }) => {
+        this.pluginEnabled = isEnabled;
       })
       .catch((err: any) => {
         this.pluginEnabled = false;
@@ -53,19 +52,19 @@ export class BlePage implements ViewDidEnter, ViewDidLeave {
 
   public async onClickStartScan() {
     this.devicesFound.length = 0;
-    await this._ble.stopScan();
+    await this._bleutoothLE.stopScan();
     this.scanning = false;
 
     if (this.platformAvailable) {
       this.scanning = true;
 
-      this._scansubscription = this._ble.startScan([]).subscribe((device: BleDevice) => {
-        if (device) {
-          this.devicesFound.push(device);
+      // this._scansubscription = this._bleutoothLE.startScan([]).subscribe((device: any) => {
+      //   if (device) {
+      //     this.devicesFound.push(device);
 
-          this._utilityService.showToast(`Device found: ${device.name}`, "middle");
-        }
-      });
+      //     this._utilityService.showToast(`Device found: ${device.name}`, "middle");
+      //   }
+      // });
     } else {
       this.scanning = false;
       this._unsubscribeSubscriptions();
@@ -75,14 +74,14 @@ export class BlePage implements ViewDidEnter, ViewDidLeave {
   }
 
   public async onClickStopScan() {
-    await this._ble.stopScan();
+    await this._bleutoothLE.stopScan();
     this.scanning = false;
   }
 
   public onClickConnect(deviceId: string) {
-    this._connectSubscription = this._ble.connect(deviceId).subscribe(() => {
-      this._utilityService.showToast(`Connected to ${deviceId}`, "middle");
-    });
+    // this._connectSubscription = this._bleutoothLE.connect(deviceId).subscribe(() => {
+    //   this._utilityService.showToast(`Connected to ${deviceId}`, "middle");
+    // });
   }
 
   private _unsubscribeSubscriptions() {
