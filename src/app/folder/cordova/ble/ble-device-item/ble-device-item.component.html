@@ -1,0 +1,25 @@
+@if (device) {
+  <div class="content">
+    <span class="content__info">
+      <span>
+        <strong>Name:</strong>
+        {{ device.name }}
+      </span>
+      <span>
+        <strong>ID:</strong>
+        {{ device.id }}
+      </span>
+      <span>
+        <strong>Connectable:</strong>
+        {{ device.connectable }}
+      </span>
+      <span>
+        <strong>Advertising:</strong>
+        {{ device.advertising | json }}
+      </span>
+    </span>
+    <span class="content__actions">
+      <ion-button (click)="onClickConnect()">Connect</ion-button>
+    </span>
+  </div>
+}

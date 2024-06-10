@@ -1,16 +1,12 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { FolderPage } from "./folder.page";
+import { BlePage } from "./ble.page";
 
 const routes: Routes = [
   {
     path: "",
-    component: FolderPage,
-  },
-  {
-    path: "cordova",
-    loadChildren: () => import("./cordova/cordova.module").then(m => m.CordovaPageModule),
+    component: BlePage,
   },
 ];
 
@@ -18,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FolderPageRoutingModule {}
+export class BlePageRoutingModule {}

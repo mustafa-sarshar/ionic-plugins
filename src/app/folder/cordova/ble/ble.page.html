@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Cordova - BLE @if (platformAvailable) {
+      <ion-icon name="checkmark"></ion-icon>
+      } @else {
+      <ion-icon name="close"></ion-icon>
+      }
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Cordova - BLE</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding">
+    <ion-button (click)="onClickScan()">Scan</ion-button>
+    @if (devicesFound && devicesFound.length>0) {
+    <ion-list
+      class="ion-margin-vertical"
+      lines="none">
+      @for (device of devicesFound; track $index) {
+      <ion-item class="ion-padding">
+        <my-ble-device-item
+          [device]="device"
+          style="width: 100%" />
+      </ion-item>
+      }
+    </ion-list>
+    }
+  </div>
+</ion-content>
