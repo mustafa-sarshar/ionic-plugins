@@ -1,6 +1,11 @@
 import { Component } from "@angular/core";
 import { Platform, ViewDidEnter, ViewDidLeave } from "@ionic/angular";
-import { BluetoothLE } from "@awesome-cordova-plugins/bluetooth-le/ngx";
+import {
+  BluetoothLE,
+  InitParams,
+  ScanParams,
+  ScanStatus,
+} from "@awesome-cordova-plugins/bluetooth-le/ngx";
 import { Subscription } from "rxjs";
 
 import { UtilityService } from "../../../shared/services/utility/utility.service";
@@ -21,7 +26,7 @@ export class BluetoothLEPage implements ViewDidEnter, ViewDidLeave {
   constructor(
     private readonly _platform: Platform,
     private readonly _utilityService: UtilityService,
-    private readonly _bleutoothLE: BluetoothLE,
+    private readonly _bluetoothLE: BluetoothLE,
   ) {}
 
   public ionViewDidEnter(): void {
@@ -35,7 +40,7 @@ export class BluetoothLEPage implements ViewDidEnter, ViewDidLeave {
         this._utilityService.showToast(err, "bottom");
       });
 
-    this._bleutoothLE
+    this._bluetoothLE
       .isEnabled()
       .then(({ isEnabled }) => {
         this.pluginEnabled = isEnabled;
@@ -52,19 +57,31 @@ export class BluetoothLEPage implements ViewDidEnter, ViewDidLeave {
 
   public async onClickStartScan() {
     this.devicesFound.length = 0;
-    await this._bleutoothLE.stopScan();
+    await this._bluetoothLE.stopScan();
     this.scanning = false;
 
     if (this.platformAvailable) {
-      this.scanning = true;
+      const initParams: InitParams = {
+        "request": true,
+        "statusReceiver": true,
+        "restoreKey": "bluetoothleplugin",
+      };
+      this._bluetoothLE.initialize(initParams).subscribe(({ status }) => {
+        this._utilityService.showToast(status, "middle");
+      });
 
-      // this._scansubscription = this._bleutoothLE.startScan([]).subscribe((device: any) => {
-      //   if (device) {
-      //     this.devicesFound.push(device);
+      // this.scanning = true;
 
-      //     this._utilityService.showToast(`Device found: ${device.name}`, "middle");
-      //   }
-      // });
+      // const scanParams: ScanParams = { allowDuplicates: false };
+      // this._scansubscription = this._bluetoothLE
+      //   .startScan(scanParams)
+      //   .subscribe((scanStatus: ScanStatus) => {
+      //     if (scanStatus) {
+      //       this.devicesFound.push(scanStatus);
+
+      //       this._utilityService.showToast(`Device found: ${scanStatus.name}`, "middle");
+      //     }
+      //   });
     } else {
       this.scanning = false;
       this._unsubscribeSubscriptions();
@@ -74,12 +91,12 @@ export class BluetoothLEPage implements ViewDidEnter, ViewDidLeave {
   }
 
   public async onClickStopScan() {
-    await this._bleutoothLE.stopScan();
+    await this._bluetoothLE.stopScan();
     this.scanning = false;
   }
 
   public onClickConnect(deviceId: string) {
-    // this._connectSubscription = this._bleutoothLE.connect(deviceId).subscribe(() => {
+    // this._connectSubscription = this._bluetoothLE.connect(deviceId).subscribe(() => {
     //   this._utilityService.showToast(`Connected to ${deviceId}`, "middle");
     // });
   }

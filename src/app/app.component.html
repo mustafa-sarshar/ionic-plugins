@@ -2,7 +2,8 @@
   <ion-split-pane contentId="main-content">
     <ion-menu
       contentId="main-content"
-      type="overlay">
+      type="overlay"
+      [swipeGesture]="false">
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>Ionic Plugins</ion-list-header>
@@ -31,21 +32,6 @@
                 }
               </ion-item-group>
             </ion-menu-toggle>
-          }
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          @for (label of labels; track $index) {
-            <ion-item lines="none">
-              <ion-icon
-                aria-hidden="true"
-                slot="start"
-                ios="bookmark-outline"
-                md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
           }
         </ion-list>
       </ion-content>

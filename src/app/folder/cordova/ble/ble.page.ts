@@ -16,6 +16,7 @@ export class BlePage implements ViewDidEnter, ViewDidLeave {
   public pluginEnabled: boolean = false;
   public scanning: boolean = false;
   public devicesFound: BleDevice[] = [];
+  private _stateNotificationsSubscription?: Subscription;
   private _scansubscription?: Subscription;
   private _connectSubscription?: Subscription;
 
