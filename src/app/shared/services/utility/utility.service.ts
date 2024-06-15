@@ -20,4 +20,15 @@ export class UtilityService {
       console.error(err);
     }
   }
+
+  public decodeBytes(data: any) {
+    try {
+      const textDecoder = new TextDecoder();
+      return textDecoder.decode(data);
+      // return Buffer.from(data).toString("utf8");   // in node.js
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
 }

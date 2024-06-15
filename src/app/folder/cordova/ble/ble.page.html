@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Cordova - BLE @if (platformAvailable) {
+      Cordova - BLE @if (isPlatformAvailable) {
       <ion-icon
         name="logo-ionic"
         color="success"></ion-icon>
@@ -12,7 +12,7 @@
       <ion-icon
         name="logo-ionic"
         color="danger"></ion-icon>
-      } @if (pluginEnabled) {
+      } @if (isPluginEnabled) {
       <ion-icon
         name="bluetooth"
         color="success"></ion-icon>
@@ -33,11 +33,19 @@
   </ion-header>
 
   <div class="ion-padding">
-    @if (scanning) {
-    <ion-button (click)="onClickStopScan()">Stop Scan</ion-button>
+    @if (!deviceConnected) { @if (isScanningDevices) {
+    <ion-button
+      (click)="onClickStopScan()"
+      expand="block">
+      Stop Scan
+    </ion-button>
     } @else {
-    <ion-button (click)="onClickStartScan()">Start Scan</ion-button>
-    } @if (devicesFound && devicesFound.length>0) {
+    <ion-button
+      (click)="onClickStartScan()"
+      expand="block">
+      Start Scan
+    </ion-button>
+    } @if(!deviceConnected) { @if (devicesFound && devicesFound.length>0) {
     <ion-list
       class="ion-margin-vertical"
       lines="none">
@@ -50,6 +58,41 @@
       </ion-item>
       }
     </ion-list>
-    }
+    }} }@else {
+    <ion-button
+      (click)="onClickDisconnect()"
+      expand="block">
+      Disconnect
+    </ion-button>
+    @if (isReadingData) {
+    <ion-button
+      (click)="onClickStopData()"
+      expand="block">
+      Stop Reading
+    </ion-button>
+    <ion-list>
+      <ion-item>
+        <p>Device 1 Counter: {{dataRead_1 ? dataRead_1[1]:"NA"}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Device 2 Counter: {{dataRead_2 ? dataRead_2[1]:"NA"}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Device 3 Counter: {{dataRead_3 ? dataRead_3[1]:"NA"}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Device 4 Counter: {{dataRead_4 ? dataRead_4[1]:"NA"}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Device 5 Counter: {{dataRead_5 ? dataRead_5[1]:"NA"}}</p>
+      </ion-item>
+    </ion-list>
+    } @else {
+    <ion-button
+      (click)="onClickReadData()"
+      expand="block">
+      Read from {{deviceConnected.name ? deviceConnected.name :deviceConnected.id}}
+    </ion-button>
+    } }
   </div>
 </ion-content>
