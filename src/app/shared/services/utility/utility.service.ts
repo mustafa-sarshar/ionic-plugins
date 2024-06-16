@@ -31,4 +31,21 @@ export class UtilityService {
       return null;
     }
   }
+
+  public convertArrayBuffersToUnit8Array(data: ArrayBuffer[]) {
+    // Calculate the total byte length of all the ArrayBuffer objects
+    const totalByteLength = data.reduce((total, curr) => total + curr.byteLength, 0);
+
+    // Create a new Uint8Array with the calculated total byte length
+    const combinedData = new Uint8Array(totalByteLength);
+
+    // Copy the contents of each ArrayBuffer into the Uint8Array
+    let offset = 0;
+    for (const buffer of data) {
+      combinedData.set(new Uint8Array(buffer), offset);
+      offset += buffer.byteLength;
+    }
+
+    return combinedData;
+  }
 }

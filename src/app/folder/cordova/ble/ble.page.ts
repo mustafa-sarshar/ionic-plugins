@@ -180,30 +180,14 @@ export class BlePage implements ViewDidEnter, ViewDidLeave, OnDestroy {
             this._TARGET_BLE_CHARACTERISTIC_UUID,
           )
           .subscribe((data: ArrayBuffer[]) => {
+            // console.log(data);
+            // console.log(this._utilityService.convertArrayBuffersToUnit8Array(data));
             const dataDecoded = this._utilityService.decodeBytes(data[0]);
+            console.log(dataDecoded);
             if (dataDecoded) {
-              const dataDecodedSplit = dataDecoded.split("|")[0].split(";");
-              switch (dataDecodedSplit[0]) {
-                case "1":
-                  this.dataRead_1 = dataDecodedSplit.slice();
-                  break;
-                case "2":
-                  this.dataRead_2 = dataDecodedSplit.slice();
-                  break;
-                case "3":
-                  this.dataRead_3 = dataDecodedSplit.slice();
-                  break;
-                case "4":
-                  this.dataRead_4 = dataDecodedSplit.slice();
-                  break;
-                case "5":
-                  this.dataRead_5 = dataDecodedSplit.slice();
-                  break;
-                default:
-                  break;
-              }
-              this._changeDetectorRef.detectChanges();
+              this._processData(dataDecoded);
             }
+            this._changeDetectorRef.detectChanges();
           });
       } else {
         this._utilityService.showToast("Device not found", "bottom");
@@ -262,6 +246,29 @@ export class BlePage implements ViewDidEnter, ViewDidLeave, OnDestroy {
       }
     } else {
       this._utilityService.showToast("No device connected yet!", "bottom");
+    }
+  }
+
+  private _processData(data: string) {
+    const dataSplit = data.split("|")[0].split(";");
+    switch (dataSplit[0]) {
+      case "1":
+        this.dataRead_1 = dataSplit.slice();
+        break;
+      case "2":
+        this.dataRead_2 = dataSplit.slice();
+        break;
+      case "3":
+        this.dataRead_3 = dataSplit.slice();
+        break;
+      case "4":
+        this.dataRead_4 = dataSplit.slice();
+        break;
+      case "5":
+        this.dataRead_5 = dataSplit.slice();
+        break;
+      default:
+        break;
     }
   }
 
